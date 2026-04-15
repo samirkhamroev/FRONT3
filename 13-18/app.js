@@ -40,7 +40,7 @@ socket.on('taskAdded', (task) => {
     notification.textContent = `Новая задача: ${task.text}`;
     notification.style.cssText = `
         position: fixed; top: 10px; right: 10px;
-        background: #4285f4; color: white; padding: 1rem;
+        background: #8e24aa; color: white; padding: 1rem;
         border-radius: 5px; z-index: 1000;
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     `;

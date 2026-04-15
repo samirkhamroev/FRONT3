@@ -7,18 +7,31 @@
     <link rel="manifest" href="/manifest.json">
     <!-- Для Android -->
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#4285f4">
+    <meta name="theme-color" content="#8e24aa">
     <!-- Для iOS -->
     <link rel="apple-touch-icon" href="/icons/favicon-128x128.png">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Заметки (PWA)</title>
+    <title>Zаметки (PWA)</title>
     <!-- chota CSS -->
     <link rel="stylesheet" href="https://unpkg.com/chota@latest">
     <link rel="icon" href="/icons/favicon.ico" sizes="16x16" type="image/ico">
+    <style>
+        :root {
+            --color-primary: #8e24aa;
+            --color-lightGrey: #f3e5f5;
+            --color-grey: #ce93d8;
+            --color-darkGrey: #4a148c;
+            --bg-color: #faf8fc;
+            --font-family-sans: 'Inter', sans-serif;
+            --font-family-mono: Consolas, monaco, monospace;
+        }
+        body { background-color: var(--bg-color); }
+        header h1 { font-weight: 800; color: var(--color-primary); }
+    </style>
 </head>
 <body>
     <header>
-        <h1 class="is-center">А вот и «Заметки» - наше первое <span class="no-break">оффлайн-приложение</span></h1>
+        <h1 class="is-center" style="margin-top: 1rem;">Zаметки</h1>
         <nav class="tabs is-center">
             <button id="home-btn" class="tab active col-6">Главная</button>
             <button id="about-btn" class="tab col-6">О приложении</button>
