@@ -196,10 +196,7 @@ if ('serviceWorker' in navigator) {
 
             if (enableBtn && disableBtn) {
                 const subscription = await reg.pushManager.getSubscription();
-                if (subscription) {
-                    enableBtn.style.display = 'none';
-                    disableBtn.style.display = 'inline-block';
-                }
+                // Ранее здесь было скрытие, теперь всегда оставляем обе кнопки
 
                 enableBtn.addEventListener('click', async () => {
                     if (Notification.permission === 'denied') {
@@ -214,14 +211,10 @@ if ('serviceWorker' in navigator) {
                         }
                     }
                     await subscribeToPush();
-                    enableBtn.style.display = 'none';
-                    disableBtn.style.display = 'inline-block';
                 });
 
                 disableBtn.addEventListener('click', async () => {
                     await unsubscribeFromPush();
-                    disableBtn.style.display = 'none';
-                    enableBtn.style.display = 'inline-block';
                 });
             }
         } catch (err) {
