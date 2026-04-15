@@ -65,8 +65,9 @@ function initNotes() {
                 const date = new Date(note.reminder);
                 reminderInfo = `<br><small style="color:#d32f2f;">!!! Напоминание: ${date.toLocaleString()}</small>`;
             }
-            return `<li class="card" style="margin-bottom: 0.5rem; padding: 0.5rem;">
-                <strong>${note.text}</strong>${reminderInfo}
+            return `<li class="card" style="margin-bottom: 0.5rem; padding: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
+                <div><strong>${note.text}</strong>${reminderInfo}</div>
+                <button class="button outline primary" style="padding: 0.2rem 0.5rem; font-size: 0.8rem; margin-left: 1rem;" onclick="deleteNote(${note.id})">Удалить</button>
             </li>`;
         }).reverse().join('');
     };
@@ -115,6 +116,14 @@ function initNotes() {
             }
         }
     });
+
+    // Удаление заметки
+    window.deleteNote = function(id) {
+        let notes = JSON.parse(localStorage.getItem('notes') || '[]');
+        notes = notes.filter(n => n.id !== id);
+        localStorage.setItem('notes', JSON.stringify(notes));
+        loadNotes();
+    };
 
     loadNotes();
 }
