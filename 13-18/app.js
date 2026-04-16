@@ -105,15 +105,15 @@ function initNotes() {
         e.preventDefault();
         const text = reminderText.value.trim();
         const datetime = reminderTime.value;
+        console.log('Reminder submit:', text, datetime);
         if (text && datetime) {
             const timestamp = new Date(datetime).getTime();
-            if (timestamp > Date.now()) {
-                addNote(text, timestamp);
-                reminderText.value = '';
-                reminderTime.value = '';
-            } else {
-                alert('Дата напоминания должна быть в будущем');
-            }
+            console.log('Timestamp:', timestamp, 'Now:', Date.now());
+            addNote(text, timestamp);
+            reminderText.value = '';
+            reminderTime.value = '';
+        } else {
+            alert('Заполните текст и дату напоминания!');
         }
     });
 
