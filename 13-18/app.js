@@ -126,6 +126,50 @@ function initNotes() {
     };
 
     loadNotes();
+
+    // Проверка напоминаний каждые 10 секунд
+    setInterval(() => {
+        const notes = JSON.parse(localStorage.getItem('notes') || '[]');
+        const now = Date.now();
+        const fired = JSON.parse(localStorage.getItem('firedReminders') || '[]');
+
+        notes.forEach(note => {
+            if (note.reminder && note.reminder <= now && !fired.includes(note.id)) {
+                // Показываем баннер-напоминание в браузере
+                const banner = document.createElement('div');
+                banner.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <span style="font-size: 2rem;">🔔</span>
+                        <div>
+                            <strong style="font-size: 1.1rem;">Напоминание!</strong><br>
+                            <span>${note.text}</span>
+                        </div>
+                        <button onclick="this.parentElement.parentElement.remove()" style="
+                            margin-left: auto; background: white; color: #8e24aa;
+                            border: none; border-radius: 6px; padding: 0.4rem 1rem;
+                            cursor: pointer; font-weight: bold;
+                        ">OK</button>
+                    </div>
+                `;
+                banner.style.cssText = `
+                    position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+                    background: linear-gradient(135deg, #8e24aa, #6a1b9a);
+                    color: white; padding: 1.2rem 2rem; border-radius: 12px;
+                    z-index: 9999; min-width: 350px; max-width: 500px;
+                    box-shadow: 0 8px 32px rgba(142, 36, 170, 0.4);
+                    animation: slideDown 0.5s ease;
+                `;
+                document.body.appendChild(banner);
+
+                // Автоудаление баннера через 15 секунд
+                setTimeout(() => { if (banner.parentElement) banner.remove(); }, 15000);
+
+                // Запоминаем что уже показали это напоминание
+                fired.push(note.id);
+                localStorage.setItem('firedReminders', JSON.stringify(fired));
+            }
+        });
+    }, 10000);
 }
 
 // Загружаем главную страницу при старте
