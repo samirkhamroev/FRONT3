@@ -63,7 +63,7 @@ function initNotes() {
             let reminderInfo = '';
             if (note.reminder) {
                 const date = new Date(note.reminder);
-                reminderInfo = `<br><small style="color:#d32f2f;">!!! Напоминание: ${date.toLocaleString()}</small>`;
+                reminderInfo = `<br><small style="color:#d32f2f;">!!! Напоминание: ${date.toLocaleString('ru-RU', { timeZone: 'Europe/Moscow' })} МСК</small>`;
             }
             return `<li class="card" style="margin-bottom: 0.5rem; padding: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
                 <div><strong>${note.text}</strong>${reminderInfo}</div>
