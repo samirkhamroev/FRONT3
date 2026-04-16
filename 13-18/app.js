@@ -184,41 +184,46 @@ async function unsubscribeFromPush() {
     }
 }
 
-// Регистрация Service Worker и настройка кнопок
+// Регистрация Service Worker
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', async () => {
         try {
             const reg = await navigator.serviceWorker.register('/sw.js');
             console.log('SW registered:', reg.scope);
-
-            const enableBtn = document.getElementById('enable-push');
-            const disableBtn = document.getElementById('disable-push');
-
-            if (enableBtn && disableBtn) {
-                const subscription = await reg.pushManager.getSubscription();
-                // Ранее здесь было скрытие, теперь всегда оставляем обе кнопки
-
-                enableBtn.addEventListener('click', async () => {
-                    if (Notification.permission === 'denied') {
-                        alert('Уведомления запрещены. Разрешите их в настройках браузера.');
-                        return;
-                    }
-                    if (Notification.permission === 'default') {
-                        const permission = await Notification.requestPermission();
-                        if (permission !== 'granted') {
-                            alert('Необходимо разрешить уведомления.');
-                            return;
-                        }
-                    }
-                    await subscribeToPush();
-                });
-
-                disableBtn.addEventListener('click', async () => {
-                    await unsubscribeFromPush();
-                });
-            }
         } catch (err) {
             console.log('SW registration failed:', err);
         }
     });
 }
+
+// Делегирование событий для кнопок уведомлений (работает всегда)
+document.addEventListener('click', async (e) => {
+    if (e.target.id === 'enable-push') {
+        if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+            alert('Push-уведомления не поддерживаются вашим браузером.');
+            return;
+        }
+        if (Notification.permission === 'denied') {
+            alert('Уведомления запрещены. Разрешите их в настройках браузера.');
+            return;
+        }
+        if (Notification.permission === 'default') {
+            const perm = await Notification.requestPermission();
+            if (perm !== 'granted') {
+                alert('Необходимо разрешить уведомления.');
+                return;
+            }
+        }
+        await subscribeToPush();
+        alert('✅ Уведомления включены!');
+    }
+
+    if (e.target.id === 'disable-push') {
+        if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+            alert('Push-уведомления не поддерживаются.');
+            return;
+        }
+        await unsubscribeFromPush();
+        alert('🔕 Уведомления отключены.');
+    }
+});
